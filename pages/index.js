@@ -11,7 +11,8 @@ import {StyledTooltip} from '../src/StyledTooltip'
 const points = {
   "01/04/20": {
     XAxis: "01/04/20",
-    image: "teste"
+    image: "teste",
+    dataArea: "casesHokkaido"
   }
 }
 
@@ -125,7 +126,7 @@ export default function Home() {
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Tooltip content={<CustomTooltip />} />
             <Area type="monotone" dataKey="casesBr" stroke="#0066cc" fillOpacity={1} fill="url(#colorBr)" dot={CustomDot}/>
-            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp)" dot={false}/>
+            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp)" dot={CustomDot}/>
           </AreaChart>
           <AreaChart width={1900} height={300} data={data} syncId="anyId">
             <defs>
@@ -143,8 +144,8 @@ export default function Home() {
             <YAxis />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Tooltip content={<CustomTooltip />} />
-            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={false}/>
-            <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={false}/>
+            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={CustomDot}/>
+            <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={CustomDot}/>
           </AreaChart>
 
         </div>
@@ -181,8 +182,9 @@ const CustomTooltip = ({active, payload,label}) => {
 }
 
 const CustomDot = (props) => {
-  const {payload} = props
-  if(Object.keys(points).includes(payload.XAxis))
+  const {payload, dataKey} = props
+
+  if(Object.keys(points).includes(payload.XAxis) && points[payload.XAxis].dataArea === dataKey)
     return <circle {...props} stroke="black" stroke-width="2" r="6" fill="pink"  />
   
     return null
