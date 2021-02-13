@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const StyledTooltip = styled.div`
-  background-color: rgb(255,255,255,0.8);
+  background-color: rgb(255,255,255,0.9);
   padding: 5px 10px;
   border: 1px solid #ccc;
   ul{padding: 0; margin: 0;}

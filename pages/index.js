@@ -2,7 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import axios from 'axios'
 import React from 'react'
-import { AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, Dot } from 'recharts';
+import { AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, LabelList } from 'recharts';
 import moment from 'moment'
 import _ from 'lodash'
 import {readRemoteFile} from 'react-papaparse'
@@ -125,8 +125,10 @@ export default function Home() {
             <YAxis />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Tooltip content={<CustomTooltip />} />
-            <Area type="monotone" dataKey="casesBr" stroke="#0066cc" fillOpacity={1} fill="url(#colorBr)" dot={CustomDot}/>
-            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp)" dot={CustomDot}/>
+            <Area type="monotone" dataKey="casesBr" stroke="#0066cc" fillOpacity={1} fill="url(#colorBr)" dot={CustomDot}>
+              <LabelList dataKey="XAxis" position="top" content={CustomDateLabel} />
+            </Area>
+            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp)" dot={CustomDot} />
           </AreaChart>
           <AreaChart width={1900} height={300} data={data} syncId="anyId">
             <defs>
@@ -188,5 +190,19 @@ const CustomDot = (props) => {
     return <circle {...props} stroke="black" stroke-width="2" r="6" fill="pink"  />
   
     return null
+}
+
+const CustomDateLabel = (props) => {
+  const { x, y, width, height, value } = props
+
+  if(Object.keys(points).includes(value))
+    return (
+      <g>
+        <text x={x} y={y-15} fill="#000" textAnchor="middle" dominantBaseline="middle">
+          {value}
+        </text>
+      </g>
+    )
+  return null
 }
 
