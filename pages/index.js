@@ -12,7 +12,8 @@ const points = {
   "01/04/20": {
     XAxis: "01/04/20",
     image: "teste",
-    dataArea: "casesHokkaido"
+    dataArea: "casesHokkaido",
+    pointFill: "yellow"
   }
 }
 
@@ -100,16 +101,16 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Dados do Brasil</title>
+        <title>COVID19 History - Brazil VS Japan VS Hokkaido</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Novos casos Brasil X Japão COVID19 
+          COVID19 New Cases Brazil X Japan  
         </h1>
         <div>
-          <AreaChart width={1900} height={300} data={data} syncId="anyId">
+          <AreaChart width={1900} height={340} data={data} syncId="anyId">
             <defs>
               <linearGradient id="colorBr" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
@@ -130,7 +131,7 @@ export default function Home() {
             </Area>
             <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp)" dot={CustomDot} />
           </AreaChart>
-          <AreaChart width={1900} height={300} data={data} syncId="anyId">
+          <AreaChart width={1900} height={340} data={data} syncId="anyId">
             <defs>
               <linearGradient id="colorJp2" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
@@ -146,7 +147,9 @@ export default function Home() {
             <YAxis />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Tooltip content={<CustomTooltip />} />
-            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={CustomDot}/>
+            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={CustomDot}>
+              <LabelList dataKey="XAxis" position="top" content={CustomDateLabel} />
+            </Area>
             <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={CustomDot}/>
           </AreaChart>
 
@@ -169,9 +172,9 @@ const CustomTooltip = ({active, payload,label}) => {
             return(
               <li key={index}>
                 <b>{i.name === "casesBr" 
-                ? "Brasil" 
+                ? "Brazil" 
                 : i.name === "casesJp"
-                ? "Japão"
+                ? "Japan"
                 : "Hokkaido"}</b> : {i.value}
               </li>
             )
