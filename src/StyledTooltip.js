@@ -7,3 +7,22 @@ export const StyledTooltip = styled.div`
   ul{padding: 0; margin: 0;}
   ul li{padding: 0; margin: 0; list-style-type: none;}
 `
+
+export const Dimmer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(0,0,0,0.6);
+`
+
+export const ModalContent = styled.div`
+  background-color: white;
+  min-width: 95%;
+  min-height: 95%;
+  transform: translate(-50%,-50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+`

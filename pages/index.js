@@ -7,6 +7,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import {readRemoteFile} from 'react-papaparse'
 import {StyledTooltip} from '../src/StyledTooltip'
+import Modal from '../src/Modal'
 
 const points = {
   "01/04/20": {
@@ -17,7 +18,7 @@ const points = {
   }
 }
 
-export default function Home() {
+const Home = (props) => {
 
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(true)
@@ -150,9 +151,9 @@ export default function Home() {
             <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={CustomDot}>
               <LabelList dataKey="XAxis" position="top" content={CustomDateLabel} />
             </Area>
-            <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={CustomDot}/>
+            <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={<CustomDot onOpen={props.setOpen} />}/>
           </AreaChart>
-
+          {props.modalOpen && <Modal onClose={props.setOpen}></Modal>}
         </div>
       </main>
     </div>
@@ -189,8 +190,11 @@ const CustomTooltip = ({active, payload,label}) => {
 const CustomDot = (props) => {
   const {payload, dataKey} = props
 
+
   if(Object.keys(points).includes(payload.XAxis) && points[payload.XAxis].dataArea === dataKey)
-    return <circle {...props} stroke="black" stroke-width="2" r="6" fill="pink"  />
+    return (
+      <circle {...props} stroke="black" stroke-width="2" r="6" fill="pink" onClick={() => props.onOpen(true)} />
+    )
   
     return null
 }
@@ -209,3 +213,4 @@ const CustomDateLabel = (props) => {
   return null
 }
 
+export default Home
