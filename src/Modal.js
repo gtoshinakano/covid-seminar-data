@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Dimmer, Modal, ModalContent, ModalNav} from './StyledTooltip'
 import {CloseO} from '@styled-icons/evil/CloseO'
+import DisplayContent from './DisplayContent'
 
 const ModalComponent = props => {
     return ReactDOM.createPortal(
@@ -13,7 +14,7 @@ const ModalComponent = props => {
               </div>
             </ModalNav>
             <ModalContent>
-              teste
+              <DisplayContent content={props.content} />
             </ModalContent>
           </Modal>
         </Dimmer>,

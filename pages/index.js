@@ -12,7 +12,7 @@ import Modal from '../src/Modal'
 const points = {
   "01/04/20": {
     XAxis: "01/04/20",
-    image: "teste",
+    content: "start",
     dataArea: "casesHokkaido",
     pointFill: "yellow"
   }
@@ -23,6 +23,12 @@ const Home = (props) => {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(true)
   const [hokkaido, setHkData] = React.useState([])
+  const [displayContent, setContent] = React.useState("")
+
+  const onOpen = (open, payload) => {
+    props.setOpen(open)
+    setContent(payload.content)
+  }
 
   React.useState( async () => {
     const br = await axios.get('https://covid-193.p.rapidapi.com/history', {
@@ -151,9 +157,14 @@ const Home = (props) => {
             <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={CustomDot}>
               <LabelList dataKey="XAxis" position="top" content={CustomDateLabel} />
             </Area>
-            <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={<CustomDot onOpen={props.setOpen} />}/>
+            <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={<CustomDot onOpen={onOpen} />}/>
           </AreaChart>
-          {props.modalOpen && <Modal onClose={props.setOpen}></Modal>}
+          {props.modalOpen && 
+            <Modal 
+              onClose={props.setOpen}
+              content={displayContent}
+            />
+          }
         </div>
       </main>
     </div>
@@ -189,11 +200,14 @@ const CustomTooltip = ({active, payload,label}) => {
 
 const CustomDot = (props) => {
   const {payload, dataKey} = props
+  const open = () => {
+    props.onOpen(true, payload)
+  }
 
 
   if(Object.keys(points).includes(payload.XAxis) && points[payload.XAxis].dataArea === dataKey)
     return (
-      <circle {...props} stroke="black" stroke-width="2" r="6" fill="pink" onClick={() => props.onOpen(true)} />
+      <circle {...props} stroke="black" stroke-width="2" r="6" fill="pink" onClick={open} />
     )
   
     return null
