@@ -17,7 +17,7 @@ export const Dimmer = styled.div`
   background-color: rgb(0,0,0,0.6);
 `
 
-export const ModalContent = styled.div`
+export const Modal = styled.div`
   background-color: white;
   min-width: 95%;
   min-height: 95%;
@@ -25,4 +25,19 @@ export const ModalContent = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+`
+
+export const ModalNav = styled.div`
+  width:100%;
+  
+  .close{
+    float: right;
+    margin: 3px 4px 0;
+  }
+`
+export const ModalContent = styled.div`
+  flex-grow:1;
 `

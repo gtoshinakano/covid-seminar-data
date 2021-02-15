@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Dimmer, ModalContent} from './StyledTooltip'
+import {Dimmer, Modal, ModalContent, ModalNav} from './StyledTooltip'
+import {CloseO} from '@styled-icons/evil/CloseO'
 
-const Modal = props => {
+const ModalComponent = props => {
     return ReactDOM.createPortal(
         <Dimmer onClick={() => props.onClose(false)}>
+          <Modal>
+            <ModalNav onClick={() => props.onClose(false)}>
+              <div className="close">
+                <CloseO size={20} />
+              </div>
+            </ModalNav>
             <ModalContent>
-                Modal Content
+              teste
             </ModalContent>
+          </Modal>
         </Dimmer>,
         document.querySelector('#modal')
     );
 };
 
-export default Modal;
+export default ModalComponent;
