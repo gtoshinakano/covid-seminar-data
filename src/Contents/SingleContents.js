@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import ImageSlider from '../ImageSlider'
 
 const Cancelled = () => {
 
@@ -20,8 +21,14 @@ const NewFlight = () => {
 }
 
 const Quarantine = () => {
+  const images = [
+    {url: "http://public.potaufeu.asahi.com/6054-p/picture/22355269/884b776d5e9abfd714563bdf2ca8bd69.jpg"},
+    {url: "/room1.jpg"},
+    {url: "/room2.jpg"},
+    {url: "/room3.jpg"},
+  ]
   return <Container>
-    Exame PCR e Quarentena
+    <ImageSlider images={images} />
   </Container>
 }
 
