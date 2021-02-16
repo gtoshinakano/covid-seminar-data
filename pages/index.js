@@ -10,12 +10,79 @@ import {StyledTooltip} from '../src/StyledTooltip'
 import Modal from '../src/Modal'
 
 const points = {
-  "01/04/20": {
-    XAxis: "01/04/20",
-    content: "start",
+  "17/04/20": {
+    XAxis: "17/04/20",
+    content: "cancelled",
+    dataArea: "casesBr",
+    pointFill: "red"
+  },
+  "16/05/20": {
+    XAxis: "16/05/20",
+    content: "rescheduled",
+    dataArea: "casesBr",
+    pointFill: "red"
+  },
+  "25/05/20": {
+    XAxis: "25/05/20",
+    content: "cancelEmergencyState",
+    dataArea: "casesJp",
+    pointFill: "pink"
+  },
+  "31/05/20": {
+    XAxis: "31/05/20",
+    content: "newFlight",
+    dataArea: "casesBr",
+    pointFill: "green"
+  },
+  "02/06/20": {
+    XAxis: "02/06/20",
+    content: "quarantine",
+    dataArea: "casesBr",
+    pointFill: "gold"
+  },
+  "16/06/20": {
+    XAxis: "16/06/20",
+    content: "arriveJica",
+    dataArea: "casesBr",
+    pointFill: "green"
+  },
+  "22/07/20": {
+    XAxis: "22/07/20",
+    content: "gotoStarts",
+    dataArea: "casesJp",
+    pointFill: "blue"
+  },
+  "28/12/20": {
+    XAxis: "28/12/20",
+    content: "gotoSuspended",
+    dataArea: "casesJp",
+    pointFill: "red"
+  },
+  "28/10/20": {
+    XAxis: "28/10/20",
+    content: "hokkaidoAlert",
     dataArea: "casesHokkaido",
-    pointFill: "yellow"
-  }
+    pointFill: "red"
+  },
+  "07/11/20": {
+    XAxis: "07/11/20",
+    content: "hokkaidoAlertRaise",
+    dataArea: "casesHokkaido",
+    pointFill: "red"
+  },
+  "17/11/20": {
+    XAxis: "17/11/20",
+    content: "sapporoAlertRaise",
+    dataArea: "casesHokkaido",
+    pointFill: "red"
+  },
+  "07/01/21": {
+    XAxis: "07/01/21",
+    content: "tokyoEmergency",
+    dataArea: "casesJp",
+    pointFill: "red"
+  },
+
 }
 
 const Home = (props) => {
@@ -99,7 +166,8 @@ const Home = (props) => {
   }, [])
   React.useEffect(() => {
     if(hokkaido.length > 0){
-      setData(Object.values(_.merge(_.keyBy(data, 'XAxis'), _.keyBy(hokkaido, 'XAxis'))))
+      let newData = Object.values(_.merge(_.keyBy(data, 'XAxis'), _.keyBy(hokkaido, 'XAxis')))
+      setData(_.filter(newData, i => XAxis != "30/05/20"))
       setLoading(false)
     }
   }, [hokkaido])
@@ -133,10 +201,10 @@ const Home = (props) => {
             <YAxis />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Tooltip content={<CustomTooltip />} />
-            <Area type="monotone" dataKey="casesBr" stroke="#0066cc" fillOpacity={1} fill="url(#colorBr)" dot={CustomDot}>
+            <Area type="monotone" dataKey="casesBr" stroke="#0066cc" fillOpacity={1} fill="url(#colorBr)" dot={<CustomDot onOpen={onOpen} />}>
               <LabelList dataKey="XAxis" position="top" content={CustomDateLabel} />
             </Area>
-            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp)" dot={CustomDot} />
+            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp)" dot={<CustomDot onOpen={onOpen} />} />
           </AreaChart>
           <AreaChart width={1900} height={340} data={data} syncId="anyId">
             <defs>
@@ -154,7 +222,7 @@ const Home = (props) => {
             <YAxis />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Tooltip content={<CustomTooltip />} />
-            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={CustomDot}>
+            <Area type="monotone" dataKey="casesJp" stroke="#0066cc" fillOpacity={1} fill="url(#colorJp2)" dot={<CustomDot onOpen={onOpen} />}>
               <LabelList dataKey="XAxis" position="top" content={CustomDateLabel} />
             </Area>
             <Area type="monotone" dataKey="casesHokkaido" stroke="#0066cc" fillOpacity={1} fill="url(#colorHk)" dot={<CustomDot onOpen={onOpen} />}/>
@@ -204,10 +272,9 @@ const CustomDot = (props) => {
     props.onOpen(true, payload)
   }
 
-
   if(Object.keys(points).includes(payload.XAxis) && points[payload.XAxis].dataArea === dataKey)
     return (
-      <circle {...props} stroke="black" stroke-width="2" r="6" fill="pink" onClick={open} />
+      <circle {...props} stroke="black" stroke-width="2" r="6" fill={payload.pointFill} onClick={open} />
     )
   
     return null
@@ -219,7 +286,7 @@ const CustomDateLabel = (props) => {
   if(Object.keys(points).includes(value))
     return (
       <g>
-        <text x={x} y={y-15} fill="#000" textAnchor="middle" dominantBaseline="middle">
+        <text x={x} y={y-15} fill="#000" textAnchor="middle" dominantBaseline="middle" font-size="10">
           {value}
         </text>
       </g>

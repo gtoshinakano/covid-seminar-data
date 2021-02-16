@@ -20,7 +20,7 @@ export const Dimmer = styled.div`
 export const Modal = styled.div`
   background-color: white;
   min-width: 95%;
-  min-height: 95%;
+  max-height: 95%;
   transform: translate(-50%,-50%);
   position: absolute;
   top: 50%;
